@@ -77,7 +77,8 @@ public class RobotContainer {
     private final SwerveDriveSimulation driveSimulation;
 
     private final Field2d field = new Field2d();
-
+    private final CommandXboxController Driver1 =
+                        new CommandXboxController(0);
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         final List<PhotonCameraProperties> camerasProperties =
@@ -307,7 +308,13 @@ public class RobotContainer {
                 // driver.getController().getHID()::getPOV;
                 () -> -1;
         final JoystickDrive joystickDrive = new JoystickDrive(driveInput, () -> true, pov, drive);
-        drive.setDefaultCommand(joystickDrive);
+        drive.setDefaultCommand(new RunCommand( // Unstable
+        () -> drivetrain.drive(
+                -deadbandCompensate(Driver1.getRawAxis(1)),
+                -deadbandCompensate(Driver1.getRawAxis(0)),
+                -deadbandCompensate(Driver1.getRawAxis(4)),
+                        true, true),
+        drivetrain));
         JoystickDrive.instance = Optional.of(joystickDrive);
 
         /* reset gyro heading manually (in case the vision does not work) */
