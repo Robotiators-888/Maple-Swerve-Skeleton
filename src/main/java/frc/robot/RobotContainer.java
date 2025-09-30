@@ -94,26 +94,25 @@ public class RobotContainer {
                 powerDistribution = LoggedPowerDistribution.getInstance(0, PowerDistribution.ModuleType.kCTRE);
 
                 /* CTRE Chassis: */
-                drive = new SwerveDrive(
-                        Objects.equals(TunerConstants.kCANBus.getName(), "rio")
-                                ? SwerveDrive.DriveType.CTRE_ON_RIO
-                                : SwerveDrive.DriveType.CTRE_ON_CANIVORE,
-                        new GyroIOPigeon2(TunerConstants.DrivetrainConstants),
-                        new CanBusIOReal(TunerConstants.kCANBus),
-                        new ModuleIOTalon(TunerConstants.FrontLeft, "FrontLeft"),
-                        new ModuleIOTalon(TunerConstants.FrontRight, "FrontRight"),
-                        new ModuleIOTalon(TunerConstants.BackLeft, "BackLeft"),
-                        new ModuleIOTalon(TunerConstants.BackRight, "BackRight"));
+                // drive = new SwerveDrive(
+                //         Objects.equals(TunerConstants.kCANBus.getName(), "rio")
+                //                 ? SwerveDrive.DriveType.CTRE_ON_RIO
+                //                 : SwerveDrive.DriveType.CTRE_ON_CANIVORE,
+                //         new GyroIOPigeon2(TunerConstants.DrivetrainConstants),
+                //         new CanBusIOReal(TunerConstants.kCANBus),
+                //         new ModuleIOTalon(TunerConstants.FrontLeft, "FrontLeft"),
+                //         new ModuleIOTalon(TunerConstants.FrontRight, "FrontRight"),
+                //         new ModuleIOTalon(TunerConstants.BackLeft, "BackLeft"),
+                //         new ModuleIOTalon(TunerConstants.BackRight, "BackRight"));
 
                 /* REV Chassis */
-                //                drive = new SwerveDrive(
-                //                        SwerveDrive.DriveType.CTRE_ON_CANIVORE,
-                //                        new GyroIOPigeon2(TunerConstants.DrivetrainConstants),
-                //                        new ModuleIOSpark(0),
-                //                        new ModuleIOSpark(1),
-                //                        new ModuleIOSpark(2),
-                //                        new ModuleIOSpark(3)
-                //                );
+                drive = new SwerveDrive(
+                        SwerveDrive.DriveType.CTRE_ON_CANIVORE,
+                        new GyroIOPigeon2(TunerConstants.DrivetrainConstants),
+                        new ModuleIOSpark(0),
+                        new ModuleIOSpark(1),
+                        new ModuleIOSpark(2),
+                        new ModuleIOSpark(3));
 
                 aprilTagVision = new AprilTagVision(new AprilTagVisionIOReal(camerasProperties), camerasProperties);
             }
