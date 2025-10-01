@@ -11,6 +11,7 @@ public class ApriltagVisionIOSim extends AprilTagVisionIOReal {
     private final VisionSystemSim visionSystemSim;
     private final PhotonCameraSim[] camerasSim;
     private final Supplier<Pose2d> robotActualPoseInSimulationSupplier;
+    private final boolean activateVisionProcessing = true;
 
     public ApriltagVisionIOSim(
             List<PhotonCameraProperties> cameraProperties,
@@ -22,14 +23,15 @@ public class ApriltagVisionIOSim extends AprilTagVisionIOReal {
         this.visionSystemSim = new VisionSystemSim("main");
         visionSystemSim.addAprilTags(aprilTagFieldLayout);
         camerasSim = new PhotonCameraSim[cameraProperties.size()];
-
-        for (int i = 0; i < cameraProperties.size(); i++) {
-            final PhotonCameraSim cameraSim = new PhotonCameraSim(
-                    super.cameras[i], cameraProperties.get(i).getSimulationProperties());
-            cameraSim.enableRawStream(true);
-            cameraSim.enableProcessedStream(true);
-            cameraSim.enableDrawWireframe(true);
-            visionSystemSim.addCamera(camerasSim[i] = cameraSim, cameraProperties.get(i).robotToCamera);
+        if (activateVisionProcessing) {
+            for (int i = 0; i < cameraProperties.size(); i++) {
+                final PhotonCameraSim cameraSim = new PhotonCameraSim(
+                        super.cameras[i], cameraProperties.get(i).getSimulationProperties());
+                cameraSim.enableRawStream(true);
+                cameraSim.enableProcessedStream(true);
+                cameraSim.enableDrawWireframe(true);
+                visionSystemSim.addCamera(camerasSim[i] = cameraSim, cameraProperties.get(i).robotToCamera);
+            }
         }
     }
 

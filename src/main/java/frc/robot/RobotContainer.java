@@ -340,12 +340,14 @@ public class RobotContainer {
         // driver.faceToTargetButton().whileTrue(FaceCoralStation.faceCoralStation(drive, driveInput));
 
         /* auto alignment example, delete it for your project */
-        driver.autoAlignmentButtonLeft()
-                .whileTrue(ReefAlignment.alignmentToBranch(
-                        drive, aprilTagVision, ledStatusLight, driver, false, Commands::none));
-        driver.autoAlignmentButtonRight()
-                .whileTrue(ReefAlignment.alignmentToBranch(
-                        drive, aprilTagVision, ledStatusLight, driver, true, Commands::none));
+        // driver.autoAlignmentButtonLeft()
+        //         .whileTrue(ReefAlignment.alignmentToBranch(
+        //                 drive, aprilTagVision, ledStatusLight, driver, false, Commands::none));
+        // driver.autoAlignmentButtonRight()
+        //         .whileTrue(ReefAlignment.alignmentToBranch(
+        //                 drive, aprilTagVision, ledStatusLight, driver, true, Commands::none));
+        driver.autoAlignmentButtonLeft().whileTrue(new CMD_PathfindCloseReefAlign(drive, aprilTagVision, true));
+        driver.autoAlignmentButtonRight().whileTrue(new CMD_PathfindCloseReefAlign(drive, aprilTagVision, false));
 
         //        new Trigger(() -> operator.getRightX() > 0.5).whileTrue(ReefAlignment.previousTargetButton(0.3));
         //        new Trigger(() -> operator.getRightX() < -0.5).whileTrue(ReefAlignment.nextTargetButton(0.3));
