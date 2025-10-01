@@ -77,8 +77,7 @@ public class RobotContainer {
     private final SwerveDriveSimulation driveSimulation;
 
     private final Field2d field = new Field2d();
-    private final CommandXboxController Driver1 =
-                        new CommandXboxController(0);
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         final List<PhotonCameraProperties> camerasProperties =
@@ -308,13 +307,7 @@ public class RobotContainer {
                 // driver.getController().getHID()::getPOV;
                 () -> -1;
         final JoystickDrive joystickDrive = new JoystickDrive(driveInput, () -> true, pov, drive);
-        drive.setDefaultCommand(new RunCommand( // Unstable
-        () -> drivetrain.drive(
-                -deadbandCompensate(Driver1.getRawAxis(1)),
-                -deadbandCompensate(Driver1.getRawAxis(0)),
-                -deadbandCompensate(Driver1.getRawAxis(4)),
-                        true, true),
-        drivetrain));
+        drive.setDefaultCommand(joystickDrive);
         JoystickDrive.instance = Optional.of(joystickDrive);
 
         /* reset gyro heading manually (in case the vision does not work) */
@@ -340,14 +333,12 @@ public class RobotContainer {
         // driver.faceToTargetButton().whileTrue(FaceCoralStation.faceCoralStation(drive, driveInput));
 
         /* auto alignment example, delete it for your project */
-        // driver.autoAlignmentButtonLeft()
-        //         .whileTrue(ReefAlignment.alignmentToBranch(
-        //                 drive, aprilTagVision, ledStatusLight, driver, false, Commands::none));
-        // driver.autoAlignmentButtonRight()
-        //         .whileTrue(ReefAlignment.alignmentToBranch(
-        //                 drive, aprilTagVision, ledStatusLight, driver, true, Commands::none));
-        driver.autoAlignmentButtonLeft().whileTrue(new CMD_PathfindCloseReefAlign(drive, aprilTagVision, true));
-        driver.autoAlignmentButtonRight().whileTrue(new CMD_PathfindCloseReefAlign(drive, aprilTagVision, false));
+        driver.autoAlignmentButtonLeft()
+                .whileTrue(ReefAlignment.alignmentToBranch(
+                        drive, aprilTagVision, ledStatusLight, driver, false, Commands::none));
+        driver.autoAlignmentButtonRight()
+                .whileTrue(ReefAlignment.alignmentToBranch(
+                        drive, aprilTagVision, ledStatusLight, driver, true, Commands::none));
 
         //        new Trigger(() -> operator.getRightX() > 0.5).whileTrue(ReefAlignment.previousTargetButton(0.3));
         //        new Trigger(() -> operator.getRightX() < -0.5).whileTrue(ReefAlignment.nextTargetButton(0.3));
